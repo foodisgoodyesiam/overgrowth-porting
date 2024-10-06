@@ -175,10 +175,8 @@ inline __m128 _mm_and_ps(__m128 a, __m128 b) {
 __attribute__ ((const, always_inline))
 inline __m128 _mm_shuffle_ps(__m128 a, __m128 b, uint8_t z, uint8_t y, uint8_t x, uint8_t w) {
     __m128 ret;
-    ret[3] = b[z];
-    ret[2] = b[y];
-    ret[1] = a[x];
-    ret[0] = a[w];
+    int mask __attribute__ ((vector_size (16))) = {w, x, y+4, z+4};
+    ret = __builtin_shuffle(a, b, mask);
     return ret;
 }
 
