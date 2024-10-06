@@ -42,7 +42,7 @@ inline uint64_t GetTimestamp() {
     _ReadBarrier();
     i = __rdtsc();
     return (uint64_t)i;
-#elif defined(__aarch64__) // not much point checking for platform for other architectures, it's almost certainly linux or bsd
+#elif defined(__aarch64__) // not much point checking for platform for other architectures, it's almost certainly linux or bsd (including mac)
     uint64_t ret;
     asm volatile("dmb ld" ::
                       : "memory");  // not sure if dmb or dsd is a better equivalent for lfence here
