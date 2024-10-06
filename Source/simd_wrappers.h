@@ -171,8 +171,6 @@ inline __m128 _mm_and_ps(__m128 a, __m128 b) {
 #define _MM_SHUFFLE(z, y, x, w) z, y, x, w
 
 // shuffle. in a weird and roundabout way. this is neat, but I wonder how they thought of this...
-// TODO check, is this actually getting turned into a vector on any platform? This is something where I wonder how smart the compiler can be.
-// TODO in the only place (I think) in the code that uses this, it has no reason to use a shuffle at all... why does it? maybe it does, I guess
 __attribute__ ((const, always_inline))
 inline __m128 _mm_shuffle_ps(__m128 a, __m128 b, uint8_t z, uint8_t y, uint8_t x, uint8_t w) {
     __m128 ret;
