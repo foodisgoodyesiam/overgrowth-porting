@@ -43,6 +43,40 @@ inline uint64_t getCPUTSC() {
     _ReadBarrier();
     i = __rdtsc();
     return (uint64_t)i;
+#elif defined(__aarch64__) // not much point checking for platform for other architectures, it's almost certainly linux or bsd
+    uint64_t ret;
+    asm volatile("dmb ld" ::
+                      : "memory");  // not sure if dmb or dsd is a better equivalent for lfence here
+    asm volatile("mrs %0, cntvct_el0"
+                 : "=r" (ret));
+    return ret;
+#elif defined (__powerpc64__)
+    uint64_t ret;
+    asm volatile("lwsync" ::
+                      : "memory");
+    ret = __builtin_ppc_mftb();
+    return ret;
+#elif defined(__loongarch__)
+    uint64_t ret, counterid;
+    asm volatile("dbar 0" ::
+                      : "memory");
+    asm volatile("rdtime.d %0, %1"
+                 : "=r" (ret) , "=r" (counterid));
+    return ret;
+#elif defined(__mips__)
+    uint64_t ret;
+    asm volatile("sync 0" ::
+                      : "memory");
+    asm volatile ("rdhwr %0, $2\n"
+                      : "=r" (ret));
+    return ret;
+#elif defined(__riscv)
+    uint64_t ret;
+    asm volatile("fence r,r" ::
+                     : "memory");
+    asm volatile("rdcycle %0"
+                 : "=r" (ret));
+    return ret;
 #else
 
 #error "No timer implementation for current target platform"
