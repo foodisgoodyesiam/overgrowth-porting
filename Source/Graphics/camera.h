@@ -32,7 +32,7 @@
 
 #include <vector>
 #include <list>
-#include <emmintrin.h>
+#include "simd_wrappers.h"
 
 class CameraObject;
 

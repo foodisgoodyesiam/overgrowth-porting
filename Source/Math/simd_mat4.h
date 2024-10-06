@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 #pragma once
 
-#include <xmmintrin.h>
+#include "simd_wrappers.h"
 
 class simd_mat4 {
    public:
